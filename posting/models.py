@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
+from rest_framework.reverse import reverse as api_reverse
 
 
 class BlogPost(models.Model):
@@ -15,3 +17,8 @@ class BlogPost(models.Model):
     @property
     def owner(self):
         return self.user
+
+    def get_api_url(self, request=None):
+        return api_reverse("api-postings:post-rud",
+                           kwargs={'pk': self.pk},
+                           request=request)

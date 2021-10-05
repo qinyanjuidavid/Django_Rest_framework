@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 from posting.models import BlogPost
 from rest_framework.test import APITestCase
+from django.urls import reverse
+from rest_framework.reverse import reverse as api_reverse
+from rest_framework import status
 
 
 class BlogPostAPITestCase(APITestCase):
@@ -18,3 +21,9 @@ class BlogPostAPITestCase(APITestCase):
     def test_single_post(self):
         post_count = BlogPost.objects.count()
         self.assertEqual(post_count, 1)
+
+    def test_get_list(self):
+        data = {}
+        url = api_reverse("api-postings:post-list-create")
+        response = self.client.get(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

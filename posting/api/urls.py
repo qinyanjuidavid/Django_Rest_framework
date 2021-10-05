@@ -5,5 +5,5 @@ app_name = "posting"
 
 urlpatterns = [
     path('<pk>/', BlogPostRudView.as_view(), name="post-rud"),
-    path('', BlogPostAPIView.as_view(), name="post-create"),
+    path('', BlogPostAPIView.as_view(), name="post-list-create"),
 ]
