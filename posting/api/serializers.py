@@ -5,7 +5,7 @@ from posting.models import BlogPost
 
 class BlogPostSerializer(serializers.ModelSerializer):
     class Meta:
-        model = "BlogPost"
+        model = BlogPost
         fields = [
             "pk",
             "user",
@@ -13,4 +13,14 @@ class BlogPostSerializer(serializers.ModelSerializer):
             'content',
             'timestamp'
         ]
-# Converts to json and validates data past
+        read_only_fields = ["user", "pk"]
+
+    def validate_title(self, value):
+        qs = BlogPost.objects.filter(title__iexact=value)
+        if self.instance:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise serializers.ValidationError(
+                "The title has already been used.")
+        return value
+        # Converts to json and validates data past

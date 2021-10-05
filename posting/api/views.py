@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from rest_framework import generics
 from posting.models import BlogPost
+from posting.api.serializers import BlogPostSerializer
+from rest_framework import generics
 
 
-class BlogPostRudView(generics.RetrieveUpdateDestoyAPIView):
-    loojup_field = "pk"
+class BlogPostRudView(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = "pk"
+    serializer_class = BlogPostSerializer
     # queryset = BlogPost.objects.all()
 
     def get_queryset(self):
@@ -13,3 +15,6 @@ class BlogPostRudView(generics.RetrieveUpdateDestoyAPIView):
     # def get_object(self):
     #     pk = self.kwargs.get('pk')
     #     return BlogPost.objects.get(pk=pk)
+# RetriveAPIView
+# RetrieveUpdateDestoyAPIView
+# RetriveDestoyAPIView
