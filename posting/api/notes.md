@@ -2,6 +2,7 @@
 
 - Crud Retrieve Update Delete
 - Create & List & Search
+- permissions
 
 2. HTTP methods
 
