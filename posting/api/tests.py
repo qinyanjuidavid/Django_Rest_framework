@@ -27,3 +27,35 @@ class BlogPostAPITestCase(APITestCase):
         url = api_reverse("api-postings:post-list-create")
         response = self.client.get(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # print(response.data)
+
+    def test_post_item(self):
+        data = {
+            "title": "Some random title",
+            "Content": "Some more content"
+        }
+        url = api_reverse("api-postings:post-list-create")
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_get_item(self):
+        blog_post = BlogPost.objects.first()
+        data = {}
+        url = blog_post.get_api_url()
+        response = self.client.get(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        print(response.data)
+
+    def test_update_item(self):
+        blog_post = BlogPost.objects.first()
+        url = blog_post.get_api_url()
+        data = {
+            "title": "Some random title",
+            "content": "some more content"
+        }
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code,
+                         status.HTTP_405_METHOD_NOT_ALLOWED)
+
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
