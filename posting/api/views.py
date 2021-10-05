@@ -4,6 +4,16 @@ from posting.api.serializers import BlogPostSerializer
 from rest_framework import generics
 
 
+class BlogPostAPIView(generics.CreateAPIView):
+    serializer_class = BlogPostSerializer
+
+    def get_queryset(self):
+        return BlogPost.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
 class BlogPostRudView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = "pk"
     serializer_class = BlogPostSerializer
